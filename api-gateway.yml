@@ -1,0 +1,19 @@
+# Configurações específicas do API Gateway
+server:
+  port: 8080 # Porta do Gateway (pode ser definida aqui ou no bootstrap do gateway)
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      # Rotas podem ser definidas aqui também, em vez de no application.yml do gateway
+      # routes: ...
+
+jwt:
+  secret: ${JWT_SECRET_FROM_ENV_OR_VAULT} # Placeholder seguro! NÃO comitar o segredo real.
+
+# Sobrescrever a URL do Eureka para produção (se necessário, em api-gateway-prod.yml)
+# eureka.client.serviceUrl.defaultZone: http://prod-eureka-server:8761/eureka/

@@ -1,0 +1,19 @@
+# Configurações padrão para todos os serviços SACRD
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus # Expor métricas Prometheus também
+  metrics:
+    tags:
+      application: ${spring.application.name} # Adiciona nome da app às métricas
+
+# Configuração padrão do Eureka Client (pode ser sobrescrita por serviço/perfil)
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/ # Default para DEV
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true

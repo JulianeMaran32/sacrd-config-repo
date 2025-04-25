@@ -1,0 +1,14 @@
+# Configurações específicas do Auth Service para o perfil PROD
+spring:
+  datasource:
+    url: jdbc:postgresql://prod-db-host:5432/sacrd_auth
+    username: prod_auth_user
+    password: ${DB_AUTH_PASSWORD_FROM_VAULT} # Placeholder seguro!
+  jpa:
+    hibernate:
+      ddl-auto: validate # Não criar/atualizar schema em produção
+    show-sql: false
+
+logging:
+  level:
+    com.sacrd.auth: INFO # Nível de log mais restrito em produção
