@@ -1,0 +1,28 @@
+# Specific configurations for auth-service (default/dev profile)
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres-auth-db:5432/sacrd_auth # Points to docker service name
+    username: auth_user
+    password: ${DB_AUTH_PASSWORD} # Injected via environment variable in docker-compose
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate # Flyway will handle schema creation/updates
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true # For development logging
+    show-sql: true # For development logging
+  flyway:
+    enabled: true
+    baseline-on-migrate: true # Creates baseline if schema exists but no Flyway table
+
+# Override JWT secrets and expirations from application.yml defaults
+jwt:
+  secret: ${JWT_SECRET} # Injected via environment variable in docker-compose
+  access-token-expiration-ms: 900000   # 15 minutes for dev
+  refresh-token-expiration-ms: 86400000 # 1 day for dev
+
+# Override default role if needed for this profile
+# app:
+#   default-role: "ADMINISTRATOR"

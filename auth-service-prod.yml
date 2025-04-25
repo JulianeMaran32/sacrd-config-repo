@@ -1,14 +1,21 @@
-# Configurações específicas do Auth Service para o perfil PROD
 spring:
   datasource:
-    url: jdbc:postgresql://prod-db-host:5432/sacrd_auth
-    username: prod_auth_user
-    password: ${DB_AUTH_PASSWORD_FROM_VAULT} # Placeholder seguro!
+    url: jdbc:postgresql://${PROD_DB_HOST}:${PROD_DB_PORT}/sacrd_auth_prod
+    username: ${PROD_DB_USER}
+    password: ${PROD_DB_PASSWORD} # From secure source (Vault, K8s Secret)
   jpa:
     hibernate:
-      ddl-auto: validate # Não criar/atualizar schema em produção
+      ddl-auto: validate
     show-sql: false
+  flyway:
+    enabled: true
+
+jwt:
+  secret: ${PROD_JWT_SECRET} # From secure source
+  access-token-expiration-ms: 3600000 # 1 hour for prod
+  refresh-token-expiration-ms: 604800000 # 7 days for prod
 
 logging:
   level:
-    com.sacrd.auth: INFO # Nível de log mais restrito em produção
+    com.sacrd.auth: INFO
+    org.springframework.security: WARN
